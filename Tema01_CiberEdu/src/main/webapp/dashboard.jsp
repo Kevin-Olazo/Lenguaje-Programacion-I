@@ -16,6 +16,13 @@
 
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container">
+        <% if ("exito".equals(request.getParameter("registro"))) { %>
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+            Estudiante registrado correctamente!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% }%>
+
         <a class="navbar-brand" href="#">CiberEdu</a>
         <div class="text-white">
             <span class="me-3">Bienvenido, <%=session.getAttribute("usuarioLogueado")%></span>
@@ -65,6 +72,7 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
