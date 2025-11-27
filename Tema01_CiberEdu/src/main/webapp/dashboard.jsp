@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-primary mb-4">
+<nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container">
         <a class="navbar-brand" href="#">CiberEdu</a>
         <div class="text-white">
