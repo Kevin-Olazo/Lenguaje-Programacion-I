@@ -18,7 +18,7 @@
     <div class="container">
         <a class="navbar-brand" href="#">CiberEdu</a>
         <div class="text-white">
-            <span class="me-3">Bienvenido, Alumno</span>
+            <span class="me-3">Bienvenido, <%=session.getAttribute("usuarioLogueado")%></span>
             <a href="login.jsp" class="btn btn-outline-light btn-sm">Salir</a>
         </div>
     </div>

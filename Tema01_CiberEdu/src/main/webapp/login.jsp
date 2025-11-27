@@ -16,10 +16,19 @@
                 <h1 class="h3 text-white">CiberEdu</h1>
                 <p class="text-white-50">Sistema de Gestion Academica</p>
             </div>
+            <%-- Mensaje de Error si la contrasena es incorrecta--%>
+            <%
+                String mensajeError = (String) request.getAttribute("error");
+                if (mensajeError != null) {
+            %>
+            <div class="alert alert-danger" role="alert">
+                <%=mensajeError %>
+            </div>
+            <% }%>
 
             <%--CARD BODY--%>
 
-            <form action="dashboard.jsp" method="POST">
+            <form action="login" method="POST">
                 <div class="form-floating mb-3">
                     <input type="text" name="usuario" class="form-control" placeholder="Ej: admin" required>
                     <label class="form-label">Usuario</label>
