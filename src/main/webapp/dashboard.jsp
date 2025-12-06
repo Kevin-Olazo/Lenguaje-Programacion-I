@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Dashboard</title>
@@ -31,6 +32,10 @@
                 </button>
             </div>
         </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="registro.jsp" class="btn btn-success btn-lg">Nuevo Alumno</a>
     </div>
 </div>
 
