@@ -1,11 +1,15 @@
 package com.ciberedu.servlets;
 
+import com.ciberedu.util.MySqlConexion;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @WebServlet(name = "RegistroServlet", urlPatterns = {"/RegistroServlet"})
 public class RegistroServlet extends HttpServlet {
@@ -14,26 +18,59 @@ public class RegistroServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8"); // Para las tildes
 
-        // 1. Recibir
+        // 1. Recibir datos del formulario
         String nombre = req.getParameter("nombre");
         String dni = req.getParameter("dni");
-        String edad = req.getParameter("edad");
+        // Convertimos edad a entero (con proteccion basica)
+        int edad = 0;
+        try {
+            edad = Integer.parseInt(req.getParameter("edad"));
+        } catch (NumberFormatException e) {
+            edad = 0; // Valor por defecto si falla
+        }
         String carrera = req.getParameter("carrera");
 
-        // 2. Simular proceso MySQL
-        System.out.println("--- INTENTO DE REGISTRO EN MYSQL ---");
-        System.out.println("Datos: " + nombre + " | " + dni + " | " + carrera);
+        String mensaje;
+        Connection con = null;
+        PreparedStatement ps = null;
 
-        // 3. Validar en Servidor (Respaldo)
-        if (nombre != null && dni != null && dni.length() == 8) {
-            // ÉXITO
-            req.setAttribute("mensajeExito", "¡Alumno " + nombre + " registrado correctamente!");
-        } else {
-            // ERROR (Aunque JQuery debería haberlo evitado)
-            req.setAttribute("mensajeExito", "Error: Datos inválidos en el servidor.");
+        try {
+            // 2. Obtener conexion
+            con = MySqlConexion.getConexion();
+
+            // 3. Preparar la sentencia SQL
+            // Los signos de interrogación (?) son parámetros seguros
+            String sql = "INSERT INTO estudiantes (nombre, dni, edad, carrera) VALUES(?, ?, ?, ?)";
+
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, dni);
+            ps.setInt(3, edad);
+            ps.setString(4, carrera);
+
+            // 4. Ejecutar la inserción
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                mensaje = "¡Éxito! El alumno " + nombre + " fue registrado en la Base de Datos";
+            } else {
+                mensaje = "Error: No se pudo guardar el registro.";
+            }
+
+        } catch (SQLException e){
+            mensaje = "Error de Base de Datos" + e.getMessage();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
-        // 4. Responder
-        req.getRequestDispatcher("registro.jsp").forward(req, resp);
+        // 6. Responder al JSP
+        req.setAttribute("mensajeExito", mensaje);
+        req.getRequestDispatcher("registro.jsp").forward(req,resp);
     }
 }
