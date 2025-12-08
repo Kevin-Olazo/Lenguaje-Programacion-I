@@ -11,11 +11,29 @@
 <head>
     <title>Registro Estudiante</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style> .error {
-        color: red;
-        font-size: 0.85rem;
-        margin-top: 2px;
-    } </style>
+    <style>
+        /* 1. Estilo para el MENSAJE de error (el texto de aviso) */
+        label.error {
+            color: red;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 5px;
+            display: block; /* Para que baje a una nueva línea */
+        }
+
+        /* 2. Estilo para el CAMPO (Input/Select) cuando hay error */
+        /* Le ponemos borde rojo, pero forzamos el color de texto a negro/normal */
+        input.error, select.error {
+            border: 1px solid red;
+            color: #212529; /* Color de texto estándar de Bootstrap */
+        }
+
+        /* Opcional: Quitar el fondo rojo suave que a veces pone Bootstrap/Browser */
+        input.error:focus, select.error:focus {
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+            border-color: #dc3545;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
@@ -72,19 +90,23 @@
 
 <script>
     $(document).ready(function () {
-        $("formRegistro").validate({
+        console.log("JQuery cargado correctamente. Iniciando validacion...")
+
+        $("#formRegistro").validate({
             rules: {
-                nombre: {required: true, minlength: 5},
-                dni: {required: true, digits: true, minlength: 8, maxlength: 8},
-                edad: {required: true, digits: true, min: 16, max: 99},
-                carera: {required: true}
+                nombre: { required: true, minlength: 5},
+                dni: { required: true, digits: true, minlength: 8, maxlength: 8},
+                edad: { required: true, digits: true, min: 16, max: 99},
+                carrera: { required: true }
             },
             messages: {
                 nombre: "El nombre es obligatorio (minimo 5 letras)",
                 dni: "DNI debe tener 8 numeros",
                 edad: "Edad invalida (16-99)",
                 carrera: "Debe elegir una carrera"
-            }
+            },
+            // Clase de error para CSS
+            errorClass: "error"
         });
     });
 </script>
