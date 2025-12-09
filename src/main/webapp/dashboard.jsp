@@ -32,11 +32,20 @@
                 </button>
             </div>
         </div>
+        <div class="col col-md-4">
+            <div class="card p-3">
+                <a href="registro.jsp" class="btn btn-success">Nuevo Alumno</a>
+            </div>
+        </div>
+
+        <div class="col col-md-4">
+            <div class="card p-3">
+                <a href="ListadoServlet" class="btn btn-primary">Ver Lista de Alumnos</a>
+            </div>
+        </div>
+
     </div>
 
-    <div class="text-center mt-4">
-        <a href="registro.jsp" class="btn btn-success btn-lg">Nuevo Alumno</a>
-    </div>
 </div>
 
 </body>
